@@ -1,0 +1,55 @@
+<js-ng-confirm-dialog 
+    [text]="'Estas seguro que quieres cancelar'" 
+    *ngIf="cancelConfirmation" 
+    (onConfirm)="doCancel()" 
+    (onCancel)="cancelConfirmation = false">
+</js-ng-confirm-dialog>
+
+<js-ng-confirm-dialog 
+    [text]="'Estas seguro que quieres salvar'" 
+    *ngIf="saveConfirmation" 
+    (onConfirm)="doSave()" 
+    (onCancel)="saveConfirmation = false">
+</js-ng-confirm-dialog>
+
+
+{{ editNewProfile?.type }}{{ editNewProfile?.name }}
+
+<div *ngIf="editNewProfile.id">{{ 'edit' | JsNgTranslator | async }} {{ editNewProfile?.name }}</div>
+
+<div *ngIf="!editNewProfile.id">
+    <div *ngIf="editNewProfile.type">{{ 'create '+editNewProfile.type | JsNgTranslator | async }}</div>
+</div>
+
+<ul class="menu-tabs-bar" role="tablist" *ngIf="editNewProfile.id">
+
+    <li *ngFor="let menuOption of menuOptions" class="menu-tab" [ngClass]="tabActive === menuOption ? 'active':''">
+        <a style="cursor:pointer" (click)="tabActive = menuOption">{{ menuOption | JsNgTranslator | async }}</a>
+    </li>
+    
+</ul>
+
+<div class="tab-content">
+
+    <div role="tabpanel" class="tab-panel" *ngIf="tabActive === vars.basic">
+        <edit-new-profile-basic  [editNewProfile]="editNewProfile"></edit-new-profile-basic>
+    </div>
+
+    <div role="tabpanel" class="tab-panel" *ngIf="tabActive === vars.settings">
+        <edit-new-profile-settings [editNewProfile]="editNewProfile"></edit-new-profile-settings>
+    </div>
+    
+    <div role="tabpanel" class="tab-panel" *ngIf="tabActive === vars.interests">
+        <edit-new-profile-interests [editNewProfile]="editNewProfile"></edit-new-profile-interests>  
+    </div>
+
+    <div role="tabpanel" class="tab-panel" *ngIf="tabActive === vars.description">
+        <edit-new-profile-description [editNewProfile]="editNewProfile"></edit-new-profile-description>  
+    </div>
+    
+</div>
+
+<div *ngIf="editNewProfile.id">
+    <button (click)="saveConfirmation = true">Save</button>
+    <button (click)="cancelConfirmation = true">Cancel</button>
+</div>

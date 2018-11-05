@@ -1,0 +1,32 @@
+<div *ngFor="let item of editNewProfile.privacy">{{item}}</div>
+
+<form [formGroup] = "settingsForm" >
+
+    <div *ngFor="let option of settingsOptions">
+        <div class="form-group">
+
+            {{ option.option | JsNgTranslator | async }}
+            <select id = "{{option.option}}" name = "{{option.option}}" formControlName = "{{option.option}}">
+                <option *ngFor = "let optionDetail of option.details" [value]="optionDetail">{{ optionDetail | JsNgTranslator | async }}</option>
+            </select>
+
+        </div>
+
+        <div *ngIf="showProfiles[option.option]">
+
+            <div *ngFor="let profile of profilesSelected[option.option]">{{profile.name}}</div>
+            <button (click)="profilesSelectorOption = option.option">Seleccionar perfiles</button>
+
+        </div>
+
+        <div *ngIf="profilesSelectorOption == option.option">
+
+            {{profilesSelectorOption}}
+            <js-ng-items-selector [items]="profilesAllowed" [itemsSelected]="profilesSelected[profilesSelectorOption]" [showWhenEmpty]="true">Aqui el selector de amigos</js-ng-items-selector>
+
+            <button (click)="addProfilesToSettingsOption(profilesSelectorOption)">Aceptarr</button>
+
+        </div>
+    </div
+
+</form>

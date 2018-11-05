@@ -1,0 +1,14 @@
+:host{
+    display:block;
+    position:absolute;
+    margin:0 auto;
+    float:left;
+    width:720px;
+    background-color:gray;
+    margin-bottom:30px;
+    border:1px solid black;
+    z-index:100;
+}
+input.ng-invalid.ng-touched{
+    border:1px solid red;
+}

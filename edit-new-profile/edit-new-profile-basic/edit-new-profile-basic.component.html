@@ -1,0 +1,74 @@
+<form (ngSubmit)="createProfile()" [formGroup]="editNewForm">
+    <div *ngIf="!editNewProfile.id">
+        <select name="profileFrom" id="profileFrom" formControlName="profileFrom">
+            <option *ngFor="let profile of loggedUser.profiles" [value]="profile">
+                {{ loggedUser.profilesDetails[profile]?.name }}
+            </option>
+        </select>
+    </div>      
+    
+    <div class="form-group">
+        <label for="name">Profile Name</label>
+        <input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        class="form-control"
+        (keyup)="setUrlName($event)"
+        (blur)="checkUrlNameAvailability($event)">
+    </div>
+    <span 
+       *ngIf="!editNewForm.get('name').valid && editNewForm.get('name').touched"
+        class="help-block">
+        <span *ngIf="editNewForm.get('name').errors['nameIsForbidden']">This name is invalid</span>
+        <span *ngIf="editNewForm.get('name').errors['required']">This field is required</span>
+    </span>
+
+    <div class="form-group">
+       <div class="row">
+            <div class="col-xs-12"> 
+
+                <span *ngIf="editNewProfile.id; else noUrlName">{{ editNewProfile.urlName }}</span>
+                <ng-template #noUrlName>
+                    <input 
+                        type="text" 
+                        id="url_name" 
+                        formControlName="urlName" 
+                        (keyup)="setUrlName($event)"
+                        (blur)="checkUrlNameAvailability()"
+                        class="form-control">
+                        
+                        <span *ngIf="!urlAvailability">Not Available</span>
+
+                    <button (click)="checkUrlNameAvailability()">{{ 'check availability' | JsNgTranslator | async }}</button>
+                </ng-template>
+               
+            </div>
+       </div>
+          
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            class="form-control"
+        >
+    </div>
+    <span 
+        *ngIf="!editNewForm.get('email').valid && editNewForm.get('email').touched" 
+        class="help-block">Please enter a valid email!
+    </span>
+
+    <div class="form-group">
+        <label for="language">{{ language | JsNgTranslator | async }}</label>
+        <select name="lang" id="lang" formControlName="lang">
+            <option *ngFor="let lang of langs" [value]="lang">{{ lang | JsNgTranslator | async }}</option>
+        </select>
+    </div>
+    
+    <div *ngIf="!editNewProfile.id">
+        <button class="btn btn-primary" type="submit" [disabled]="!editNewForm.valid || !urlAvailability">{{ 'create '+editNewProfile.type | JsNgTranslator | async }}</button>
+    </div>
+</form>

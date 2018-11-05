@@ -1,0 +1,18 @@
+<form [formGroup]="detailsForm">
+           
+<div class="col-xs-12" formArrayName = "details">
+   <div class="form-group" *ngFor="let styleCtrl of detailsForm.get('details').controls; let i=index" [formGroupName]="i">
+      
+      <select class="form-control" formControlName="detail">
+          <option *ngFor="let detail of details" [value]="detail" [disabled]="detailsSelected.indexOf(detail) > -1">{{ detail }}</option>
+      </select>
+               
+       <div class="col-xs-2">
+           <button class="btn btn-danger" (click)="onDeleteDetail(i)">Del</button>
+       </div>
+   </div>
+</div>
+
+<button class="btn btn-primary" (click)="onAddDetail()">Add</button>
+
+</form>

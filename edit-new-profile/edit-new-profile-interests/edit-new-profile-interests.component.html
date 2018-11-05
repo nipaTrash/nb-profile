@@ -1,0 +1,11 @@
+<div *ngFor="let interestSelected of interestsSelected">
+    <div (click)="selectInterestMenu(interestSelected)" [class.selected]="isTabSelected(interestSelected)">{{ interestSelected | JsNgTranslator | async }}</div>
+    <div (click)="onClickInterest(interestSelected)">x</div>
+</div>
+<hr/>
+
+<div *ngFor="let interest of interestsOptions" (click)="onClickInterest(interest)" [class.selected]="isSelected(interest)">{{ interest | JsNgTranslator | async}}</div>
+
+<div *ngFor="let interest of interestsOptions">
+    <edit-new-profile-interest-details *ngIf="interestTabActive == interest" [editNewProfile]="editNewProfile" [interest]="interest"></edit-new-profile-interest-details>
+</div>
